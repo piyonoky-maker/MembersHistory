@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.MemberMapper">
+
+    <!-- 회원 가입 -->
+    <insert id="memberInsert" parameterType="map" >
+        INSERT INTO REPORT_MEM_INFO
+        ( MEM_SEQ, MEM_ID, MEM_PASS, MEM_NAME, MEM_TEL, MEM_IMG, MEM_ADDR, CREATE_DATE ) VALUES
+        ( REPORT_MEM_INFO_SEQ.NEXTVAL, #{MEM_ID}, #{MEM_PASS}, #{mem_Name}, #{mem_Tel}, #{mem_Img}, #{mem_Addr}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))
+    </insert>
+
+    <!-- 회원정보 수정 -->
+    <update id="memberUpdate" parameterType="map">
+        UPDATE REPORT_MEM_INFO
+        SET
+            MEM_NAME = #{MEM_NAME}
+          , MEM_PASS = #{MEM_PASS}
+          , MEM_TEL = #{MEM_TEL}
+          , MEM_IMG = #{MEM_IMG}
+          , MEM_ADDR = #{MEM_ADDR}
+        WHERE MEM_SEQ = #{MEM_SEQ}
+    </update>
+
+    <delete id="memberDelete" parameterType="com.example.demo.vo.MemberVO">
+        DELETE FROM REPORT_MEM_INFO WHERE MEM_SEQ = #{memSeq}
+    </delete>
+
+
+
+    <!-- 현재 날짜와 시간 -->
+    <select id="currentDate" parameterType="string" resultType="string">
+        SELECT to_char(sysdate, 'YYYY-MM-DD') FROM dual
+    </select>
+
+
+    <select id="memberLogin"
+            parameterType="com.example.demo.vo.MemberVO"
+            resultType="Map">
+
+        SELECT
+            MEM_SEQ, MEM_ID, MEM_PASS, MEM_NAME, MEM_TEL, MEM_IMG, MEM_ADDR, CREATE_DATE
+        FROM
+            REPORT_MEM_INFO
+        WHERE MEM_ID = #{memId} AND MEM_PASS = #{memPass}
+    </select>
+
+    <select id="memberList"
+            parameterType="com.example.demo.vo.MemberVO"
+            resultType="Map">
+
+        SELECT
+            MEM_SEQ, MEM_ID, MEM_PASS, MEM_NAME, MEM_TEL, MEM_IMG, MEM_ADDR, CREATE_DATE
+        FROM
+        REPORT_MEM_INFO
+        <where>
+            <!-- 다중 검색 -->
+            <if test="searchType != null and searchType != '' and keyword != null and keyword != '' ">
+                <choose>
+                    <when test="searchType == 'memId' ">
+                        MEM_ID LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'memName' ">
+                        MEM_NAME LIKE '%' || #{keyword} || '%'
+                    </when>
+                    <when test="searchType == 'memTel' ">
+                        MEM_TEL LIKE '%' || #{keyword} || '%'
+                    </when>
+                </choose>
+            </if>
+            <!-- 로그인 관련 -->
+            <if test="memId != null and memId != '' and memPass != null and memPass != '' ">
+                MEM_ID = #{memId} AND MEM_PASS = #{memPass}
+            </if>
+            <!-- 시퀀스 검색 -->
+            <if test="memSeq != null and memSeq != ''">
+                MEM_SEQ = #{memSeq}
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+
+
+
+
+
+    <select id="Before_memberList"
+            parameterType="com.example.demo.vo.MemberVO"
+            resultType="Map">
+        SELECT deptno as "deptno",
+        dname  as "dname",
+        loc    as "loc"
+        FROM dept
+
+        <where>
+            <if test="keyword != null and keyword != '' and searchType != null and searchType != ''">
+                <choose>
+
+                    <!-- 1) 부서번호로 검색 (숫자 컬럼) -->
+                    <when test="searchType == 'deptno'">
+                        deptno = #{keyword}
+                    </when>
+
+                    <!-- 2) 부서명으로 검색 -->
+                    <when test="searchType == 'dname'">
+                        dname LIKE '%' || #{keyword} || '%'
+                    </when>
+
+                    <!-- 3) 지역으로 검색 -->
+                    <when test="searchType == 'loc'">
+                        loc LIKE '%' || #{keyword} || '%'
+                    </when>
+
+                    <!-- 혹시 searchType이 이상하게 오면 전체 조회 -->
+                    <otherwise>
+                        1=1
+                    </otherwise>
+
+                </choose>
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

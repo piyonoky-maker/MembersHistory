@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.ReportMyHistoryMapper">
+
+    <!-- 입력값 -->
+    <insert id="historyInsert" parameterType="map" >
+        INSERT INTO REPORT_MY_HISTORY
+        ( HISTORY_SEQ, MEM_SEQ, COMPANY_NAME, COMPANY_TEL, FROM_TO, CREATE_DATE ) VALUES
+        ( REPORT_MY_HISTORY_SEQ.NEXTVAL, #{MEM_SEQ}, #{COMPANY_NAME}, #{COMPANY_TEL}, #{FROM_TO}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'))
+    </insert>
+
+    <!-- 수정 -->
+    <update id="historyUpdate" parameterType="map">
+        UPDATE REPORT_MY_HISTORY
+        SET
+            COMPANY_NAME = #{COMPANY_NAME}
+          , COMPANY_TEL = #{COMPANY_TEL}
+          , FROM_TO = #{FROM_TO}
+        WHERE HISTORY_SEQ = #{HISTORY_SEQ}
+    </update>
+
+    <!-- 삭제 -->
+    <delete id="historyDelete" parameterType="com.example.demo.vo.HistoryVO">
+        DELETE FROM REPORT_MY_HISTORY WHERE HISTORY_SEQ = #{historySeq}
+    </delete>
+
+
+    <!-- 조회 -->
+    <select id="historyList"
+            parameterType="com.example.demo.vo.HistoryVO"
+            resultType="Map">
+
+        SELECT
+            HISTORY_SEQ, MEM_SEQ, COMPANY_NAME, COMPANY_TEL, FROM_TO, CREATE_DATE
+        FROM
+        REPORT_MY_HISTORY
+
+        <where>
+            <if test="historySeq != null and historySeq != ''">
+                HISTORY_SEQ = #{historySeq}
+            </if>
+            <if test="memSeq != null and memSeq != ''">
+                MEM_SEQ = #{memSeq}
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+
+
+
+
+
+    <select id="Before_memberList"
+            parameterType="com.example.demo.vo.MemberVO"
+            resultType="Map">
+        SELECT deptno as "deptno",
+        dname  as "dname",
+        loc    as "loc"
+        FROM dept
+
+        <where>
+            <if test="keyword != null and keyword != '' and searchType != null and searchType != ''">
+                <choose>
+
+                    <!-- 1) 부서번호로 검색 (숫자 컬럼) -->
+                    <when test="searchType == 'deptno'">
+                        deptno = #{keyword}
+                    </when>
+
+                    <!-- 2) 부서명으로 검색 -->
+                    <when test="searchType == 'dname'">
+                        dname LIKE '%' || #{keyword} || '%'
+                    </when>
+
+                    <!-- 3) 지역으로 검색 -->
+                    <when test="searchType == 'loc'">
+                        loc LIKE '%' || #{keyword} || '%'
+                    </when>
+
+                    <!-- 혹시 searchType이 이상하게 오면 전체 조회 -->
+                    <otherwise>
+                        1=1
+                    </otherwise>
+
+                </choose>
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
