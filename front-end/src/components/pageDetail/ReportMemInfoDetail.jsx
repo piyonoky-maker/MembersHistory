@@ -41,7 +41,7 @@ const ReportMemInfoList = () => {
 
   return (
     <>
-      <h3>회원리스트</h3>
+      <h1>회원리스트</h1>
 
       <div className='row'>
         <div className='col-3'>
