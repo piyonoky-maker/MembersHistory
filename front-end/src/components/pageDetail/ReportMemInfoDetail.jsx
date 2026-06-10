@@ -4,6 +4,7 @@ import ReportMemInfoDetailRow from './ReportMemInfoDetailRow';
 //import { Button, Modal } from 'react-bootstrap';
 import { DefalultTable } from '../style/FormStyle';
 
+
 const ReportMemInfoList = () => {
   const [reportMemInfoList, setReportMemInfoList] = useState([]);
   // 사용자 입력한 검색어 담기

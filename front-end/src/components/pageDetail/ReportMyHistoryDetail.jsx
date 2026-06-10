@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { projectListDB } from '../services/memberApi';
 import ReportMyHistoryDetailRow from './ReportMyHistoryDetailRow';
+//import { Button, Modal } from 'react-bootstrap';
 import { DefalultTable } from '../style/FormStyle';
 
 const ReportMyHistoryList = () => {

@@ -2,6 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { loginUser } from '../services/memberApi';
+//import { Button, Modal } from 'react-bootstrap';
+import { DefalultTable } from '../style/FormStyle';
 
 const HomePageDetail = () => {
   const navigate = useNavigate();
