@@ -54,6 +54,18 @@ export const projectListDB = async (datas) => {
     return res.data
 }
 
+// 담당업무 리스트
+// http://localhost:8000/task/taskList
+export const taskListDB = async (datas) => {
+    //console.log(JSON.stringify(datas))
+    const res = await axios({
+        method: 'get',
+        url: import.meta.env.VITE_SPRING_IP + 'task/taskList',
+        params: datas       // data: datas??
+    })
+    //console.log(datas)
+    return res.data
+}
 
 
 

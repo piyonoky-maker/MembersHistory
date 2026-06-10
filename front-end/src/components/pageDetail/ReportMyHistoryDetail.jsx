@@ -10,7 +10,7 @@ const ReportMyHistoryList = () => {
   const [searchType, setSearchType] = useState('');
 
   const [state, setState] = useState(0);
-  const getProjectList = async () => {
+  const getHistoryList = async () => {
     const projects = {
       searchType: searchType,
       keyword: keyword,
@@ -24,7 +24,7 @@ const ReportMyHistoryList = () => {
   useEffect(() => {
     //state가 변하면 getDeptList() 다시 호출됨.
     //0(초기값)-> 1 -> 2 -> 3
-    getProjectList();
+    getHistoryList();
   }, [keyword, searchType, state]);
 
   const handleReset = () => {
@@ -35,12 +35,12 @@ const ReportMyHistoryList = () => {
 
   const reactSearch = () => {
     console.log('reactSearch  호출');
-    getProjectList();
+    getHistoryList();
   };
 
   return (
     <>
-      <h1>프로젝트 리스트</h1>
+      <h1>프로젝트 리스트 - ReportMyHistoryDetail</h1>
 
       <div className='row'>
         <div className='col-3'>
@@ -93,19 +93,20 @@ const ReportMyHistoryList = () => {
       <table className='tg'>
         <thead>
           <tr>
-            <th className='tg-c3ow'>순번</th>
+            <th className='tg-c3ow'>히스토리시퀀스</th>
             <th className='tg-c3ow'>회사명</th>
             <th className='tg-c3ow'>회사전화번호</th>
-            <th className='tg-c3ow'>시작일 종료일</th>
+            <th className='tg-c3ow'>시작일 ~ 종료일</th>
             <th className='tg-c3ow'>가입일</th>
             <th className='tg-c3ow'>회원번호</th>
+            <th className='tg-c3ow'>보러가기</th>
           </tr>
         </thead>
         <tbody>
-          {reportMyHistoryList.map((reportMemInfo) => (
+          {reportMyHistoryList.map((reportMyHistory) => (
             <ReportMyHistoryDetailRow
-              key={reportMemInfo.HISTORY_SEQ}
-              reportMyHistoryData={reportMemInfo}
+              key={reportMyHistory.HISTORY_SEQ}
+              reportMyHistoryData={reportMyHistory}
             />
           ))}
         </tbody>

@@ -62,7 +62,7 @@
         loc    as "loc"
         FROM dept
 
-        <where>
+        <where>``
             <if test="keyword != null and keyword != '' and searchType != null and searchType != ''">
                 <choose>
 

@@ -41,7 +41,7 @@ const ReportMemInfoList = () => {
 
   return (
     <>
-      <h1>회원리스트</h1>
+      <h1>회원리스트 - ReportMemberInfoDetail</h1>
 
       <div className='row'>
         <div className='col-3'>
@@ -95,7 +95,7 @@ const ReportMemInfoList = () => {
         <table className='table'>
           <thead>
             <tr>
-              <th className='tg-c3ow'>순번</th>
+              <th className='tg-c3ow'>회원시퀀스</th>
               <th className='tg-c3ow'>아이디</th>
               <th className='tg-c3ow'>이름</th>
               <th className='tg-c3ow'>전화번호</th>
