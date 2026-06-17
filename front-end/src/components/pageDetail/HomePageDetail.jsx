@@ -3,7 +3,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { loginUser } from '../services/memberApi';
 //import { Button, Modal } from 'react-bootstrap';
-import { DefalultTable } from '../style/FormStyle';
+import { DefalultTable, MyLable, MyInput } from '../style/FormStyle';
+import styles from "../style/ReportPages.module.css";
+//import styles from "./ReportPages.module.css";
 
 const HomePageDetail = () => {
   const navigate = useNavigate();
@@ -41,16 +43,18 @@ const HomePageDetail = () => {
 
   return (
     <>
-      아이디
-      <input
+      <div className="test">dfsdf</div>
+
+      <MyLable>아이디</MyLable>
+      <MyInput
         name='mem_id'
         placeholder='아이디를 입력해주세요'
         value={loginId}
         onChange={(e) => handleSetLoginId(e.target.value)}
       />
       <br />
-      비밀번호{' '}
-      <input
+      <Mylable>비밀번호</Mylable>
+      <MyInput
         name='mem_pass'
         placeholder='비밀번호를 입력해주세요'
         value={password}
